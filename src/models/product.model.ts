@@ -4,7 +4,9 @@ export interface Product {
     id: number,
     nombre_producto: string,
     descripcion: string,
-    precio: number
+    precio: number,
+    cost: number,
+    stock: number
 }
 
 export type createproduct = Omit<Product, "id">
@@ -20,13 +22,13 @@ export const ProductModel = {
         return rows[0] || null
     },
     createproduct: async(dato: createproduct): Promise<Product> => {
-        const {nombre_producto, descripcion, precio} = dato
-        const query = "INSERT INTO products (nombre_producto, descripcion, precio) VALUES ($1, $2, $3) RETURNING *"
-        const { rows } = await pool.query(query, [nombre_producto, descripcion,precio])
+        const {nombre_producto, descripcion, precio, cost, stock} = dato
+        const query = "INSERT INTO products (nombre_producto, descripcion, precio, cost, stock) VALUES ($1, $2, $3, $4, $5) RETURNING *"
+        const { rows } = await pool.query(query, [nombre_producto, descripcion,precio, cost, stock ])
         return rows[0]
     },
     updateproduct: async(id:number, dato: updateproduct):Promise<Product | null> => {
-        const { nombre_producto, descripcion, precio } = dato
+        const { nombre_producto, descripcion, precio, cost, stock } = dato
         let query = "UPDATE products SET "
         const param : any[]= []
         let index = 1
@@ -46,6 +48,16 @@ export const ProductModel = {
             param.push(precio)
             numeroactualizaciones++
         } 
+        if(cost !== undefined){
+            query += `cost = $${index++}, `
+            param.push(cost)
+            numeroactualizaciones++
+        }
+        if(stock !== undefined) {
+            query += `stock = $${index++}, `
+            param.push(stock)
+            numeroactualizaciones++
+        }
         query = query.slice(0, -2)
         query += ` WHERE id_product = $${index} RETURNING *`
         param.push(id)

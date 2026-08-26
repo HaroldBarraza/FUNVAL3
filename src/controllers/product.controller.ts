@@ -47,30 +47,30 @@ export const getproductsbyid = async (req: Request, res: Response) => {
 };
 
 export const createproduct = async (req: Request, res: Response) => {
-/* 
-#swagger.tags = ['Products']
-#swagger.summary = 'crear un nuevo producto'
-#swagger.parameters['body'] = {
-  in: 'body',
-  description: 'Datos del producto',
-  required: true,
-  schema: {
-    nombre_producto: 'Ceviche',
-    descripcion: 'Pescado fresco con limón',
-    precio: '20.50'
-  }
-}
-
-*/
-  try {
-    const { nombre_producto, descripcion, precio } = req.body;
-    if (!nombre_producto || !descripcion || !precio) {
-      return  res.status(400).json({ error: "todos los campos son obligatorios" });
+  /* 
+  #swagger.tags = ['Products']
+  #swagger.summary = 'Crear un nuevo producto'
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Datos del producto',
+    required: true,
+    schema: {
+      nombre_producto: 'Ceviche',
+      descripcion: 'Pescado fresco con limón',
+      precio: 20.50,
+      cost: 15.00,
+      stock: 10
     }
+  }
+  */
+  try {
+    const { nombre_producto, descripcion, precio , cost, stock } = req.body;
     const resultado = await ProductModel.createproduct({
       nombre_producto,
       descripcion,
       precio,
+      cost,
+      stock
     });
     res.status(201).json({ data: resultado });
   } catch (error: any) {
@@ -78,26 +78,28 @@ export const createproduct = async (req: Request, res: Response) => {
   }
 };
 export const updateproduct = async (req: Request, res: Response) => {
-/* 
-#swagger.tags = ['Products']
-#swagger.summary = 'Actualizar un producto existente'
-#swagger.parameters['id'] = {
-  in: 'path',
-  description: 'ID del producto',
-  required: true,
-  type: 'integer'
-}
-#swagger.parameters['body'] = {
-  in: 'body',
-  description: 'Datos a actualizar',
-  required: false,
-  schema: {
-    nombre_producto: 'Ceviche de Pescado',
-    descripcion: 'Pescado fresco con limón y cebolla',
-    precio: '22.00'
+  /* 
+  #swagger.tags = ['Products']
+  #swagger.summary = 'Actualizar un producto existente'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    description: 'ID del producto',
+    required: true,
+    type: 'integer'
   }
-}
-*/
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Datos a actualizar (todos los campos son opcionales)',
+    required: false,
+    schema: {
+      nombre_producto: 'Ceviche de Pescado',
+      descripcion: 'Pescado fresco con limón y cebolla',
+      precio: 22.00,
+      cost: 18.00,
+      stock: 8
+    }
+  }
+  */
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) {

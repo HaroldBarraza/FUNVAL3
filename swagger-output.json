@@ -76,7 +76,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Datos a actualizar",
+            "description": "Datos a actualizar (todos los campos son opcionales)",
             "required": false,
             "schema": {
               "type": "object",
@@ -90,8 +90,16 @@
                   "example": "Pescado fresco con limón y cebolla"
                 },
                 "precio": {
-                  "type": "string",
-                  "example": "22.00"
+                  "type": "number",
+                  "example": 22
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 18
+                },
+                "stock": {
+                  "type": "number",
+                  "example": 8
                 }
               }
             }
@@ -148,7 +156,7 @@
         "tags": [
           "Products"
         ],
-        "summary": "crear un nuevo producto",
+        "summary": "Crear un nuevo producto",
         "description": "",
         "parameters": [
           {
@@ -168,8 +176,16 @@
                   "example": "Pescado fresco con limón"
                 },
                 "precio": {
-                  "type": "string",
-                  "example": "20.50"
+                  "type": "number",
+                  "example": 20.5
+                },
+                "cost": {
+                  "type": "number",
+                  "example": 15
+                },
+                "stock": {
+                  "type": "number",
+                  "example": 10
                 }
               }
             }
@@ -178,9 +194,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
