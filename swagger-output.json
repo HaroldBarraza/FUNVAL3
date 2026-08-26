@@ -81,15 +81,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nombre_producto": {
+                "name": {
                   "type": "string",
                   "example": "Ceviche de Pescado"
                 },
-                "descripcion": {
+                "description": {
                   "type": "string",
                   "example": "Pescado fresco con limón y cebolla"
                 },
-                "precio": {
+                "price": {
                   "type": "number",
                   "example": 22
                 },
@@ -167,15 +167,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nombre_producto": {
+                "name": {
                   "type": "string",
                   "example": "Ceviche"
                 },
-                "descripcion": {
+                "description": {
                   "type": "string",
                   "example": "Pescado fresco con limón"
                 },
-                "precio": {
+                "price": {
                   "type": "number",
                   "example": 20.5
                 },

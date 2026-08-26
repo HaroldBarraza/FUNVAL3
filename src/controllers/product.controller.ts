@@ -3,11 +3,11 @@ import type { Request, Response } from "express";
 import { ProductModel } from "../models/product.model.js";
 
 export const getproducts = async (req: Request, res: Response) => {
-/* 
+  /* 
 #swagger.tags = ['Products']
 #swagger.summary = 'Obtener todo los productos'
 
-*/ 
+*/
   try {
     const datos = await ProductModel.findAll();
     res.json({ total: datos.length, datos: datos });
@@ -18,7 +18,7 @@ export const getproducts = async (req: Request, res: Response) => {
 };
 
 export const getproductsbyid = async (req: Request, res: Response) => {
-/* 
+  /* 
 #swagger.tags = ['Products']
 #swagger.summary = 'Obtener un producto por el id'
 #swagger.parameters['id'] = {
@@ -55,22 +55,22 @@ export const createproduct = async (req: Request, res: Response) => {
     description: 'Datos del producto',
     required: true,
     schema: {
-      nombre_producto: 'Ceviche',
-      descripcion: 'Pescado fresco con limón',
-      precio: 20.50,
+      name: 'Ceviche',
+      description: 'Pescado fresco con limón',
+      price: 20.50,
       cost: 15.00,
       stock: 10
     }
   }
   */
   try {
-    const { nombre_producto, descripcion, precio , cost, stock } = req.body;
+    const { name, description, price, cost, stock } = req.body;
     const resultado = await ProductModel.createproduct({
-      nombre_producto,
-      descripcion,
-      precio,
+      name,
+      description,
+      price,
       cost,
-      stock
+      stock,
     });
     res.status(201).json({ data: resultado });
   } catch (error: any) {
@@ -92,9 +92,9 @@ export const updateproduct = async (req: Request, res: Response) => {
     description: 'Datos a actualizar (todos los campos son opcionales)',
     required: false,
     schema: {
-      nombre_producto: 'Ceviche de Pescado',
-      descripcion: 'Pescado fresco con limón y cebolla',
-      precio: 22.00,
+      name: 'Ceviche de Pescado',
+      description: 'Pescado fresco con limón y cebolla',
+      price: 22.00,
       cost: 18.00,
       stock: 8
     }
@@ -127,7 +127,7 @@ export const updateproduct = async (req: Request, res: Response) => {
 };
 
 export const deleteproduct = async (req: Request, res: Response) => {
-/* 
+  /* 
 #swagger.tags = ['Products']
 #swagger.summary = 'Eliminar un producto'
 #swagger.parameters['id'] = {
@@ -151,7 +151,7 @@ export const deleteproduct = async (req: Request, res: Response) => {
         .status(404)
         .json({ error: "no se encontro el producto con ese id" });
     }
-    res.json({message: "se elimino el prodcuto correctamente "})
+    res.json({ message: "se elimino el prodcuto correctamente " });
   } catch (error: any) {
     console.error("error", error.message);
     res.status(500).json({ error: "hubo un error al eliminar al usuario" });
