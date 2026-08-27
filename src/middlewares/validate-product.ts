@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { type ZodType, ZodError } from "zod";
 import { createproductSchema } from "../schemas/product.schemas.js"
+import { createCustomersSchema } from "../schemas/customer.schemas.js";
 
 export const validateDatos = (schema:ZodType) => async(req: Request, res:Response, next: NextFunction): Promise<void> => {
     try {
