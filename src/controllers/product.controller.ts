@@ -8,6 +8,7 @@ export const getproducts = async (req: Request, res: Response) => {
 #swagger.summary = 'Obtener todo los productos'
 
 */
+
   try {
     const datos = await ProductModel.findAll();
     res.json({ total: datos.length, datos: datos });

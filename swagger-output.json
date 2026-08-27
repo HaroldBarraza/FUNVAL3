@@ -200,6 +200,196 @@
           }
         }
       }
+    },
+    "/api/customers": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Obtener tdos los clientes",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/customers/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "obtener clientes por id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del cliente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Actualizar información de clientes",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del cliente"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del cliente a actualizar (todos los campos son opcionales)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan"
+                },
+                "appaterno": {
+                  "type": "string",
+                  "example": "Paredes"
+                },
+                "apmaterno": {
+                  "type": "string",
+                  "example": "Nina"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "example@example.com"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "example": "+51987654321"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "eliminar a un cliente ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del cliente a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/customers/": {
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Crear nuevos clientes",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del cliente",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan"
+                },
+                "appaterno": {
+                  "type": "string",
+                  "example": "Paredes"
+                },
+                "apmaterno": {
+                  "type": "string",
+                  "example": "Nina"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "example@example.com"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "example": "+51987654321"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   }
 }
