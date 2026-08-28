@@ -1,17 +1,46 @@
 import { pool } from "../config/db.js";
 import type { Request, Response } from "express";
 import { ProductModel } from "../models/product.model.js";
+import { ProductosFiltrados } from "../services/products.service.js";
+import { success } from "zod";
 
 export const getproducts = async (req: Request, res: Response) => {
-  /* 
-#swagger.tags = ['Products']
-#swagger.summary = 'Obtener todo los productos'
-
-*/
+/* 
+  #swagger.tags = ['Productos']
+  #swagger.summary = 'Obtener todos los productos con filtro maxPrice y paginación'
+  #swagger.parameters['page'] = {
+    in: 'query',
+    description: 'Número de página',
+    required: false,
+    type: 'integer',
+    default: 1
+  }
+  #swagger.parameters['limit'] = {
+    in: 'query',
+    description: 'Cantidad de resultados por página',
+    required: false,
+    type: 'integer',
+    default: 10
+  }
+  #swagger.parameters['maxPrice'] = {
+    in: 'query',
+    description: 'Filtrar productos con precio menor o igual a este valor',
+    required: false,
+    type: 'number'
+  }
+  */
 
   try {
-    const datos = await ProductModel.findAll();
-    res.json({ total: datos.length, datos: datos });
+    const result = await ProductosFiltrados.getProductosWithFilter(req.query)
+    res.json({ success: true,
+      data: result.data,
+      paginacion : {
+        total: result.total,
+        page: result.page,
+        limit: result.limit,
+        totalPage: result.totalPages
+      }
+    })
   } catch (error: any) {
     console.error("Error al conecta a la base de datos");
     res.status(500).json({ error: error.message });

@@ -14,10 +14,35 @@
     "/api/menu": {
       "get": {
         "tags": [
-          "Products"
+          "Productos"
         ],
-        "summary": "Obtener todo los productos",
+        "summary": "Obtener todos los productos con filtro maxPrice y paginación",
         "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de resultados por página",
+            "required": false,
+            "type": "integer",
+            "default": 10
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "description": "Filtrar productos con precio menor o igual a este valor",
+            "required": false,
+            "type": "number"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -384,6 +409,181 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/sales": {
+      "get": {
+        "tags": [
+          "Ventas"
+        ],
+        "summary": "Obtener todas las ventas con nombre del cliente",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ventas"
+        ],
+        "summary": "Crear una nueva venta",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la venta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customer_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "fecha_pedido": {
+                  "type": "string",
+                  "example": "2024-01-15"
+                },
+                "estatus": {
+                  "type": "string",
+                  "example": "pendiente"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/sales/{id}": {
+      "get": {
+        "tags": [
+          "Ventas"
+        ],
+        "summary": "obtener venta por id con nombre del cliente",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de la venta"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ventas"
+        ],
+        "summary": "Actualizar una venta existente",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de la venta"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos a actualizar (todos opcionales)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customer_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "fecha_pedido": {
+                  "type": "string",
+                  "example": "2024-01-16"
+                },
+                "estatus": {
+                  "type": "string",
+                  "example": "completado"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ventas"
+        ],
+        "summary": "Eliminar una venta",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de la venta a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
