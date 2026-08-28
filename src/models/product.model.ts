@@ -1,3 +1,4 @@
+import { number } from "zod";
 import { pool } from "../config/db.js";
 
 export interface Product {
@@ -12,7 +13,50 @@ export interface Product {
 export type createproduct = Omit<Product, "id">;
 export type updateproduct = Partial<createproduct>;
 
+export interface PaginaResult<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 export const ProductModel = {
+  findfilters: async (
+    page: number = 1,
+    limit: number = 10,
+    maxPrice?: number,
+  ): Promise<PaginaResult<Product>> => {
+    const condiciones: string[] = [];
+    const values: any[] = [];
+    let index = 1;
+
+    if (maxPrice !== undefined) {
+      condiciones.push(`price <= $${index}`);
+      index++;
+      values.push(maxPrice);
+    }
+
+    const where =
+      condiciones.length > 0 ? `WHERE ${condiciones.join(" AND ")}` : "";
+
+    const coutQuery = `SELECT COUNT(*) FROM products ${where}`;
+    const result = await pool.query(coutQuery, values);
+    const total = Number(result.rows[0].count);
+
+    const offset = (page - 1) * limit;
+    const datavalues = [...values, limit, offset];
+    const dataQuery = `SELECT * FROM products ${where} ORDER BY name ASC LIMIT $${index} OFFSET $${index + 1}`;
+    const { rows } = await pool.query(dataQuery, datavalues);
+
+    return {
+      data: rows,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit) || 1,
+    };
+  },
   findAll: async (): Promise<Product[]> => {
     const { rows } = await pool.query("SELECT * FROM products");
     return rows;
